@@ -455,7 +455,7 @@ body.light .address-list input{
   }
 
   /* 본문만 스크롤 */
-  main{
+   main{
     position:fixed;
     top:62px;
     bottom:0;
@@ -466,10 +466,11 @@ body.light .address-list input{
     margin:0 auto;
 
     overflow-x:hidden;
-    overflow-y:auto;
+    overflow-y:scroll;
 
     -webkit-overflow-scrolling:touch;
-    overscroll-behavior-y:contain;
+    overscroll-behavior:contain;
+    touch-action:pan-y;
 
     padding-bottom:30px;
   }
