@@ -33,39 +33,156 @@ body{
   padding-bottom:24px;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 header{
-  position:sticky;
+  position:fixed;
   top:0;
-  z-index:5;
-  background:#18324a;
-  padding:11px 12px;
-  box-shadow:0 5px 22px #0006;
-  display:grid;
-  grid-template-columns:42px 1fr 42px;
+  left:0;
+  right:0;
+  width:100%;
+  z-index:1000;
+  background:#18324a !important;
+  border-bottom:1px solid #18324a;
+  box-shadow:0 5px 22px rgba(0,0,0,.35);
+}
+
+.header-inner{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+  padding:10px 14px;
+  display:flex;
   align-items:center;
   gap:10px;
 }
 
-header h1{
-  font-size:25px;
-  margin:0;
+.title-area{
+  flex:1;
+  min-width:0;
   text-align:center;
-  font-weight:900;
 }
 
-.hbtn{
+header h1{
+  margin:0;
+  padding:0;
+  font-size:35px;
+  font-weight:800;
+  letter-spacing:.04em;
+  white-space:nowrap;
+  text-align:center;
+  color:#fff;
+}
+
+.home-btn,
+.settings{
+  flex:0 0 42px;
+  width:42px;
   height:42px;
   border:0;
-  border-radius:11px;
+  border-radius:12px;
   background:#234563;
-  color:white;
-  font-size:22px;
+  color:#f7f7f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  line-height:1;
+  cursor:pointer;
+  transition:background .2s, transform .15s;
+}
+
+.home-btn:active,
+.settings:active{
+  transform:scale(.94);
+  background:#234563;
+  color:#f7f7f7;
+}
+
+/* =========================
+   SETTINGS PANEL
+========================= */
+
+.panel{
+  display:none;
+  position:absolute;
+  top:58px;
+  right:10px;
+  width:235px;
+  padding:12px;
+  z-index:200;
+  background:#20242d;
+  border:1px solid #3a404b;
+  border-radius:16px;
+  box-shadow:0 14px 35px rgba(0,0,0,.55);
+  text-align:center;
+}
+
+.panel.show{
+  display:block;
+}
+
+.theme-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:8px;
+}
+
+.theme-btn{
+  height:42px;
+  border:1px solid #363c47;
+  border-radius:11px;
+  background:#171b22;
+  color:#e9edf2;
+  font-size:14px;
   font-weight:800;
+  cursor:pointer;
+}
+
+.theme-btn.active{
+  border-color:#8d7cf5;
+  background:linear-gradient(135deg,#302b50,#24213b);
+  color:#fff;
+}
+
+.font-row{
+  display:grid;
+  grid-template-columns:52px 1fr 52px;
+  align-items:center;
+  gap:8px;
+}
+
+.font-btn{
+  width:52px;
+  height:42px;
+  border:1px solid #363c47;
+  border-radius:11px;
+  background:#171b22;
+  color:#fff;
+  font-size:22px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.font-size{
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #363c47;
+  border-radius:11px;
+  background:#171b22;
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
 }
 
 main{
   width:min(900px,calc(100% - 16px));
-  margin:14px auto 30px;
+  margin:76px auto 30px;
 }
 
 .sheet-head{
@@ -293,8 +410,20 @@ body.light .address-list input{
     width:calc(100% - 12px);
   }
 
+   .header-inner{
+    padding:10px 7px;
+    gap:10px;
+  }
+
   header h1{
-    font-size:23px;
+    font-size:35px;
+  }
+
+  .home-btn,
+  .settings{
+    flex:0 0 42px;
+    width:42px;
+    height:42px;
   }
 
   .assignments th,
@@ -320,10 +449,74 @@ body.light .address-list input{
 
 <body>
 
-<header>
-  <button class="hbtn" onclick="history.back()" aria-label="뒤로">‹</button>
-  <h1>136번 개인구역</h1>
-  <button class="hbtn" onclick="toggleTheme()" aria-label="화면 밝기">☼</button>
+<header class="header">
+
+  <div class="header-inner">
+
+    <button
+      class="home-btn"
+      onclick="history.back()"
+      aria-label="뒤로가기">
+      ‹
+    </button>
+
+    <div class="title-area">
+      <h1>136번 개인구역</h1>
+    </div>
+
+    <button
+      class="settings"
+      onclick="toggle()"
+      aria-label="설정">
+      ⚙
+    </button>
+
+    <div id="panel" class="panel">
+
+      <div class="theme-row">
+
+        <button
+          id="lightBtn"
+          class="theme-btn"
+          onclick="theme('light')">
+          ☀ 밝게
+        </button>
+
+        <button
+          id="darkBtn"
+          class="theme-btn"
+          onclick="theme('dark')">
+          🌙 어둡게
+        </button>
+
+      </div>
+
+      <div class="font-row">
+
+        <button
+          class="font-btn"
+          onclick="changeFont(-10)"
+          aria-label="글자 작게">
+          −
+        </button>
+
+        <div id="fontSize" class="font-size">
+          100%
+        </div>
+
+        <button
+          class="font-btn"
+          onclick="changeFont(10)"
+          aria-label="글자 크게">
+          ＋
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </header>
 
 <main>
@@ -1088,15 +1281,109 @@ async function saveData(){
 
 
 /* =========================================================
-   12. 화면 밝기 변경
+   12. 화면 설정
 ========================================================= */
 
-function toggleTheme(){
+function toggle(){
 
-  document.body.classList.toggle("light");
+  document.getElementById("panel")
+    .classList.toggle("show");
 
 }
 
+
+/* 밝기 설정 */
+
+function theme(mode){
+
+  const isLight = mode === "light";
+
+  document.body.classList.toggle(
+    "light",
+    isLight
+  );
+
+  localStorage.setItem(
+    "personalTheme",
+    isLight ? "light" : "dark"
+  );
+
+  document.getElementById("lightBtn")
+    .classList.toggle("active", isLight);
+
+  document.getElementById("darkBtn")
+    .classList.toggle("active", !isLight);
+
+  document.documentElement.style.colorScheme =
+    isLight ? "light" : "dark";
+
+}
+
+
+/* 글자 크기 설정 */
+
+let fontPercent = 100;
+
+function setFontPercent(percent){
+
+  fontPercent = Math.max(
+    80,
+    Math.min(150, percent)
+  );
+
+  const scale =
+    1.2 * (fontPercent / 100);
+
+  document.documentElement.style.setProperty(
+    "--scale",
+    scale
+  );
+
+  document.getElementById("fontSize")
+    .textContent = fontPercent + "%";
+
+  localStorage.setItem(
+    "personalFont",
+    String(fontPercent)
+  );
+
+}
+
+
+function changeFont(amount){
+
+  setFontPercent(
+    fontPercent + amount
+  );
+
+}
+
+
+/* 저장된 설정 불러오기 */
+
+(function(){
+
+  const savedTheme =
+    localStorage.getItem("personalTheme");
+
+  const savedFont =
+    Number(localStorage.getItem("personalFont"));
+
+  theme(
+    savedTheme === "light" ? "light" : "dark"
+  );
+
+  if(Number.isFinite(savedFont) && savedFont){
+
+    setFontPercent(savedFont);
+
+  }else{
+
+    setFontPercent(100);
+
+  }
+
+})();
 
 /* =========================================================
    13. 웹페이지 시작
