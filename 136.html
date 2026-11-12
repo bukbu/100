@@ -407,11 +407,31 @@ body.light .address-list input{
 
 @media(max-width:520px){
 
-  main{
-    width:calc(100% - 12px);
+  /* 휴대폰 전체 화면 고정 */
+  html,
+  body{
+    width:100%;
+    height:100%;
+    height:100dvh;
+    overflow:hidden;
+    overscroll-behavior:none;
   }
 
-   .header-inner{
+  body{
+    padding-bottom:0;
+  }
+
+  /* 상단 머리말 고정 */
+  header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    width:100%;
+    z-index:1000;
+  }
+
+  .header-inner{
     padding:10px 7px;
     gap:10px;
   }
@@ -425,6 +445,26 @@ body.light .address-list input{
     flex:0 0 42px;
     width:42px;
     height:42px;
+  }
+
+  /* 본문만 스크롤 */
+  main{
+    position:fixed;
+    top:62px;
+    bottom:0;
+    left:0;
+    right:0;
+
+    width:calc(100% - 12px);
+    margin:0 auto;
+
+    overflow-x:hidden;
+    overflow-y:auto;
+
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain;
+
+    padding-bottom:30px;
   }
 
   .assignments th,
@@ -445,7 +485,7 @@ body.light .address-list input{
   }
 
 }
-</style>
+</style>  
 </head>
 
 <body>
